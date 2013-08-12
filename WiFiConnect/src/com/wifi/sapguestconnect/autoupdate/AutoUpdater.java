@@ -27,8 +27,7 @@ import android.os.Message;
 
 public class AutoUpdater 
 {
-	private static final String APPLICATION_DATA_BASE_URL = "http://privatewificonnect.googlecode.com/files/";
-	private static final String APPLICATION_PROPERTIES_URL = "https://privatewificonnect.googlecode.com/svn/trunk/WiFiConnect/application.properties";	
+	private static final String APPLICATION_PROPERTIES_URL = "https://raw.github.com/georgehdd/PrivateWifiConnect/master/application.properties";	
 	private static final String DOWNLOAD_FILEPATH = "/sdcard/download";
 
 	
@@ -81,12 +80,12 @@ public class AutoUpdater
 				  
 					int availableVersion = Integer.parseInt(updateProperties.getProperty("versionCode"));
 					int installedVersion = CommonFacade.getVersionCode(mContext);
-					String fileName = updateProperties.getProperty("fileName", "");
+					String fileURL = updateProperties.getProperty("fileURL", "");
 					String updateMessage = updateProperties.getProperty("message", "");
 					String updateTitle = updateProperties.getProperty("title", "Update available");
 					if (availableVersion > installedVersion) 
 					{
-						displayUpdateDialog(fileName, updateMessage, updateTitle);
+						displayUpdateDialog(fileURL, updateMessage, updateTitle);
 					}
 				}
 				Looper.loop();
@@ -94,7 +93,7 @@ public class AutoUpdater
     	}).start();
     }
    
-    private void downloadUpdate(final String downloadFileUrl, final String fileName) {
+    private void downloadUpdate(final String fileURL) {
     	LogManager.LogFunctionCall("AutoUpdater", "downloadUpdate()");
     	new Thread(new Runnable(){
 			public void run(){
@@ -102,7 +101,9 @@ public class AutoUpdater
 				Message msg = Message.obtain();
             	msg.obj = DownloadStates.MESSAGE_DOWNLOAD_STARTING;
             	mDownloadHandler.sendMessage(msg);
-				downloadUpdateFile(downloadFileUrl, fileName);
+            	int slashIndex = fileURL.lastIndexOf('/');
+            	String fileName = fileURL.substring(slashIndex + 1);
+				downloadUpdateFile(fileURL, fileName);
 				Intent intent = new Intent(Intent.ACTION_VIEW); 
 			    intent.setDataAndType(android.net.Uri.fromFile(new File(DOWNLOAD_FILEPATH+"/"+fileName)),"application/vnd.android.package-archive"); 
 			    mContext.startActivity(intent);
@@ -203,7 +204,7 @@ public class AutoUpdater
         return filedownloaded;
 	}
 	
-	private void displayUpdateDialog(final String fileName, String updateTitle, String updateMessage)
+	private void displayUpdateDialog(final String fileURL, String updateTitle, String updateMessage)
 	{
 		LogManager.LogFunctionCall("AutoUpdater", "displayUpdateDialog()");
 		
@@ -215,7 +216,7 @@ public class AutoUpdater
 		           {
 		        	   LogManager.LogFunctionCall("AutoUpdater", "displayUpdateDialog().AlertDialog.Builder.PositiveButton.onClick()");
 		        	   dialog.cancel();
-		        	   downloadUpdate(APPLICATION_DATA_BASE_URL + fileName, fileName);
+		        	   downloadUpdate(fileURL);
 		           }
 		       })
 		       .setNegativeButton("No", new DialogInterface.OnClickListener() {
