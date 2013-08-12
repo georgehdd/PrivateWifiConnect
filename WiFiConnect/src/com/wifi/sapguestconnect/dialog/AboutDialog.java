@@ -29,7 +29,7 @@ public class AboutDialog
 		
 		// Set Image
 		ImageView image = (ImageView) dialog.findViewById(R.id.image);
-		image.setImageResource(R.drawable.sap_connect);
+		image.setImageResource(R.drawable.hp_connect);
 		
 		// Make dialog cancellable on touch outside;
 		dialog.setCanceledOnTouchOutside(true);
