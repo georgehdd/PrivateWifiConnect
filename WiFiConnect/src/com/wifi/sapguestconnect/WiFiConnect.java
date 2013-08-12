@@ -320,24 +320,6 @@ public class WiFiConnect extends Activity
 								return true;
 							}
 		});
-		
-		
-		// Quit Item
-		MenuItem quitMenuItem = menu.add(base_group_id++, // Group ID
-										base_item_id++,  // Item ID
-										base_order_id++, 	// Order ID			
-									mResources.getString(R.string.menu_quit)); // Title
-		
-		quitMenuItem.setIcon(R.drawable.exit_48);
-		
-		quitMenuItem.setOnMenuItemClickListener(
-				new OnMenuItemClickListener() {
-							@Override
-							public boolean onMenuItemClick(MenuItem item) {
-								WiFiConnect.this.finish();
-								return true;
-							}
-		});
 
 		return true;
 	}
