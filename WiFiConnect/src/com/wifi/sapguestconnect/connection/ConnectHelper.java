@@ -3,21 +3,34 @@ package com.wifi.sapguestconnect.connection;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.net.URL;
 import java.security.cert.CertificateException;
 import java.security.cert.X509Certificate;
+import java.util.ArrayList;
+import java.util.List;
 
+import javax.net.ssl.HostnameVerifier;
 import javax.net.ssl.HttpsURLConnection;
 import javax.net.ssl.SSLContext;
+import javax.net.ssl.SSLSession;
 import javax.net.ssl.TrustManager;
 import javax.net.ssl.X509TrustManager;
 
+import org.apache.http.HttpResponse;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.ResponseHandler;
+import org.apache.http.client.entity.UrlEncodedFormEntity;
 import org.apache.http.client.methods.HttpGet;
+import org.apache.http.client.methods.HttpPost;
 import org.apache.http.impl.client.DefaultHttpClient;
+import org.apache.http.message.BasicNameValuePair;
 
 import com.wifi.sapguestconnect.LoginData;
+import com.wifi.sapguestconnect.common.WifiUtil;
 import com.wifi.sapguestconnect.data.DataBaseHelper;
 import com.wifi.sapguestconnect.log.LogManager;
 import com.wifi.sapguestconnect.preferences.PreferencesFacade;
@@ -87,7 +100,7 @@ public class ConnectHelper { // TODO remove PUBLIC modifier
     {
     	LogManager.LogFunctionCall("ConnectHelper", "isConnectedToCorrectWiFi()");
     	
-	    return isConnectedToCorrectWiFi(wm.getConnectionInfo().getSSID());
+	    return isConnectedToCorrectWiFi(WifiUtil.getSSID(wm));
     }
     
     public boolean isConnectedToCorrectWiFi(final String ssID) 
@@ -204,10 +217,10 @@ public class ConnectHelper { // TODO remove PUBLIC modifier
             String ipAddress = getIPAddress();
             String hostName = PreferencesFacade.getLocation(context).getConnectionHostName();
             // "https://wlan.sap.com/cgi-bin/login?cmd=login&mac=00:18:de:14:20:91&ip=192.168.143.135&essid=SAP-Guest&url=http%3A%2F%2Fwww%2Egoogle%2Ecom%2F";
-            String connUrl = "https://"+hostName+"/cgi-bin/login?cmd=login&mac=" + macAddress + "&ip=" + ipAddress + 
-                             "&essid=SAP-Guest&url=http://www.google.com";
+            String connUrl = "https://mobile-net.hp.com:8090/index.asp";
 
             if(getSSID().equals(loginData.getSSID())){
+            	// https://github.com/tcg/comfort-sweet/blob/master/comfort_sweet.py
     	        HttpsURLConnection httpsConnection = openConnectionToHTTPS(connUrl);
     	        logInToWiFi(httpsConnection);
     	        if(isLoggedIn(httpsConnection)){
@@ -324,24 +337,39 @@ public class ConnectHelper { // TODO remove PUBLIC modifier
 	//http://stackoverflow.com/questions/995514/https-connection-android
 
 	private void logInToWiFi(HttpsURLConnection httpsConnection){
-		LogManager.LogFunctionCall("ConnectHelper", "logInToWiFi()");
-        // add url form parameters
-		OutputStream ostream = null;
-		try {
-			ostream = httpsConnection.getOutputStream();
-			byte[] b = ("user=" + loginData.getUser() + "&password=" + loginData.getPass() + "&cmd=authenticate&Login=Log+In").getBytes();
-			ostream.write(b);
-		} catch (Exception e) {
-			LogManager.LogException(e, "ConnectHelper", "openConnectionToHTTPS() [getOutputStream]");
-		} finally {
-			if (ostream != null) {
-				try {
-					ostream.flush();
-					ostream.close();
-				} catch (IOException e) {
-					LogManager.LogException(e, "ConnectHelper", "openConnectionToHTTPS() [finally]");
+	    try {          
+	    	HttpClient httpclient = new DefaultHttpClient();
+	    	HttpPost httppost = new HttpPost(new URI("https://mobile-net.hp.com:8090/goform/HtmlLoginRequest"));                                           
+	        List<NameValuePair> nameValuePairs = new ArrayList<NameValuePair>(2);
+	        nameValuePairs.add(new BasicNameValuePair("error_url", "/login_fail.html"));
+	        nameValuePairs.add(new BasicNameValuePair("success_url", "http://mobile-net.hp.com:8080/transport.asp"));
+	        nameValuePairs.add(new BasicNameValuePair("original_url", "http://www.google.com/"));
+	        nameValuePairs.add(new BasicNameValuePair("subscription_url", "https://mobile-net.hp.com:8090/subscribe.asp"));
+	        nameValuePairs.add(new BasicNameValuePair("valid_fields", "access_type username password"));
+	        nameValuePairs.add(new BasicNameValuePair("access_type", "login"));
+	        nameValuePairs.add(new BasicNameValuePair("username", loginData.getUser()));
+	        nameValuePairs.add(new BasicNameValuePair("password", loginData.getPass()));
+	        nameValuePairs.add(new BasicNameValuePair("login", "Proceed"));
+	        
+	        httppost.setEntity(new UrlEncodedFormEntity(nameValuePairs));
+	        HttpsURLConnection.setDefaultHostnameVerifier( new HostnameVerifier(){
+				@Override
+				public boolean verify(String string, SSLSession ssls) {
+					return true;
 				}
-			}
+        	});
+	        HttpResponse response = httpclient.execute(httppost);
+	        String responseStr = response.toString();
+	        Log.v("Response:", responseStr);
+
+	    } catch (ClientProtocolException e) {
+	        e.printStackTrace();
+	        return;
+	    } catch (IOException e) {
+	        e.printStackTrace();
+	        return;
+	    } catch (URISyntaxException e) {
+			e.printStackTrace();
 		}
 	}
 	

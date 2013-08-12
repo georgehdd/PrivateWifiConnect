@@ -1,5 +1,6 @@
 package com.wifi.sapguestconnect.wifi;
 
+import com.wifi.sapguestconnect.common.WifiUtil;
 import com.wifi.sapguestconnect.connection.ConnectHelper;
 import com.wifi.sapguestconnect.log.LogManager;
 import com.wifi.sapguestconnect.preferences.PreferencesFacade;
@@ -71,10 +72,11 @@ class WifiWatchdog extends BroadcastReceiver
         {
             case CONNECTED:
                 WifiInfo wifiInfo = mWifiManager.getConnectionInfo();
-                if (wifiInfo.getSSID() == null || wifiInfo.getBSSID() == null) {
+                String ssid = WifiUtil.getSSID(mWifiManager);
+                if (ssid == null || wifiInfo.getBSSID() == null) {
                     return;
                 }
-                onConnected(wifiInfo.getSSID(), wifiInfo.getBSSID());
+                onConnected(ssid, wifiInfo.getBSSID());
                 break;
 
             case DISCONNECTED:

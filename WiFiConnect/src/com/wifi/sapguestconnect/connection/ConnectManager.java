@@ -6,6 +6,7 @@ import android.os.Handler;
 import android.os.Message;
 
 import com.wifi.sapguestconnect.LoginData;
+import com.wifi.sapguestconnect.common.WifiUtil;
 import com.wifi.sapguestconnect.connection.ConnectionFacade.IConnectionAttemptResponse;
 import com.wifi.sapguestconnect.log.LogManager;
 import com.wifi.sapguestconnect.preferences.PreferencesFacade;
@@ -54,7 +55,7 @@ class ConnectManager implements Runnable
 			{
 				responseMsg.obj = responseMsg.obj = ConnectionErrorMessages.UNKNOWN_WIFI;
 			}
-			else if(mLoginData.getSSID().compareToIgnoreCase((mWifiManager.getConnectionInfo().getSSID())) == 0) 
+			else if(mLoginData.getSSID().compareToIgnoreCase(WifiUtil.getSSID(mWifiManager)) == 0) 
 			{
 				responseMsg = connectToWifi();
 			}
