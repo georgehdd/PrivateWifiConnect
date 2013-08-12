@@ -423,8 +423,7 @@ public class ConnectHelper { // TODO remove PUBLIC modifier
 		String ssid = null;
 
 		if (wm != null) {
-			WifiInfo wi = wm.getConnectionInfo();
-			ssid = wi.getSSID();
+			ssid = WifiUtil.getSSID(wm);
 		}
 
 		return ssid;
