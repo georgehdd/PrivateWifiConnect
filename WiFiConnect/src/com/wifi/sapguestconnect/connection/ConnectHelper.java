@@ -2,7 +2,6 @@ package com.wifi.sapguestconnect.connection;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.net.URI;
 import java.net.URISyntaxException;
 import java.net.URL;
@@ -213,10 +212,9 @@ public class ConnectHelper { // TODO remove PUBLIC modifier
 	private ConnectionErrorMessages loginToSAPWiFi(){
 		LogManager.LogFunctionCall("ConnectHelper", "loginToSAPWiFi()");
     	if(ifWifiEnabled() == true){
-            String macAddress = getMacAddress();
-            String ipAddress = getIPAddress();
-            String hostName = PreferencesFacade.getLocation(context).getConnectionHostName();
-            // "https://wlan.sap.com/cgi-bin/login?cmd=login&mac=00:18:de:14:20:91&ip=192.168.143.135&essid=SAP-Guest&url=http%3A%2F%2Fwww%2Egoogle%2Ecom%2F";
+            //String macAddress = getMacAddress();
+            //String ipAddress = getIPAddress();
+            //String hostName = PreferencesFacade.getLocation(context).getConnectionHostName();
             String connUrl = "https://mobile-net.hp.com:8090/index.asp";
 
             if(getSSID().equals(loginData.getSSID())){
@@ -377,12 +375,13 @@ public class ConnectHelper { // TODO remove PUBLIC modifier
 		LogManager.LogFunctionCall("ConnectHelper", "isLoggedIn()");
 		boolean isLoggedIn = false;
 		Object contents;
+		InputStream is = null;
 		try {
 			//int responseCode = httpsConnection.getResponseCode();
 			//String u = httpsConnection.getContentType();
 			contents = httpsConnection.getContent();
 			if (contents != null) {
-				InputStream is = (InputStream) contents;
+				is = (InputStream) contents;
 				StringBuffer buf = new StringBuffer();
 				int c;
 				while ((c = is.read()) != -1) {
@@ -400,10 +399,20 @@ public class ConnectHelper { // TODO remove PUBLIC modifier
 				}
 				
 			}
-			httpsConnection.disconnect();
 		} catch (IOException e) {
 			LogManager.LogException(e, "ConnectHelper", "isLoggedIn()");
+		} finally {
+			try {
+				if (is != null)
+					is.close();
+				
+				httpsConnection.disconnect();
+				
+			} catch (IOException e) {
+				LogManager.LogException(e, "ConnectHelper", "isLoggedIn()");
+			}
 		}
+		
 		return isLoggedIn;
 	}
 	
