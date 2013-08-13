@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     
-    <string name="app_name">Guest WiFi Connect</string>
+    <string name="app_name">Mobile Net Connect</string>
 
 
 
@@ -13,7 +13,7 @@
 <string name="pref_additional_settings_category_key">additionalSettings</string>
 
 <string name="pref_settings_run_as_service">Run as a service</string>
-<string name="pref_settings_run_as_service_summary">Run in the background and connect to SAP Guest automatically</string>
+<string name="pref_settings_run_as_service_summary">Run in the background and connect to Mobile Net automatically</string>
 <string name="pref_settings_run_as_service_key">runAsService</string>
 
 <string name="pref_settings_show_icon">Show icon</string>
