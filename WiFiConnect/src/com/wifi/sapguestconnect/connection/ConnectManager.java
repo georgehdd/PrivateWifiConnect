@@ -49,11 +49,15 @@ class ConnectManager implements Runnable
 	    {
 			if(mWifiManager == null)
 			{
-				responseMsg.obj = responseMsg.obj = ConnectionErrorMessages.UNKNOWN_WIFI;
+				responseMsg.obj = ConnectionErrorMessages.UNKNOWN_WIFI;
 			}
-			else if ((mWifiManager.isWifiEnabled() == false) || (mLoginData == null)) 
+			else if (mLoginData == null)
 			{
-				responseMsg.obj = responseMsg.obj = ConnectionErrorMessages.UNKNOWN_WIFI;
+				responseMsg.obj = ConnectionErrorMessages.NO_CREDENTIALS;
+			}
+			else if (mWifiManager.isWifiEnabled() == false) 
+			{
+				responseMsg.obj = ConnectionErrorMessages.WIFI_TURNED_OFF;
 			}
 			else if(mLoginData.getSSID().compareToIgnoreCase(WifiUtil.getSSID(mWifiManager)) == 0) 
 			{

@@ -5,5 +5,6 @@ public enum ConnectionErrorMessages {
 	FAIL, 
 	ALREADY_CONNECTED, 
 	WIFI_TURNED_OFF, 
-	UNKNOWN_WIFI
+	UNKNOWN_WIFI,
+	NO_CREDENTIALS
 }

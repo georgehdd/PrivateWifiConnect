@@ -77,7 +77,8 @@
 <string name="connect_fail">Connection failed.</string>
 <string name="unknown_wifi">Unknown Wifi. Unable to connect.</string>
 <string name="already_connected">Already connected.</string>
-<string name="wifi_disabled">Wifi disabled. Unable to connect.</string>
+<string name="wifi_disabled">Wifi disabled. Enable Wifi to connect.</string>
+<string name="credentials_not_found">No credentials found. Configure credentials first.</string>
 
 <array name="location_text">
 	<item>@string/pref_settings_location_custom_text</item>

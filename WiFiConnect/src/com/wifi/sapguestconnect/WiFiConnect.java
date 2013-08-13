@@ -168,6 +168,9 @@ public class WiFiConnect extends Activity
 			case UNKNOWN_WIFI:
 				toastMsgResId = R.string.unknown_wifi;
 				break;
+			case NO_CREDENTIALS:
+				toastMsgResId = R.string.credentials_not_found;
+				break;
 			case WIFI_TURNED_OFF:
 				toastMsgResId = R.string.wifi_disabled;
 				break;
