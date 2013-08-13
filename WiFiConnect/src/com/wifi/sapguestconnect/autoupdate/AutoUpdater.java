@@ -22,6 +22,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
+import android.net.wifi.WifiManager;
 import android.os.Looper;
 import android.os.Message;
 
@@ -233,6 +234,10 @@ public class AutoUpdater
 	public static void CheckForUpdate(Context context)
 	{
 		LogManager.LogFunctionCall("AutoUpdater", "CheckForUpdate()");
+		
+		WifiManager wifiManager = (WifiManager) context.getSystemService(Context.WIFI_SERVICE);
+		if (!wifiManager.isWifiEnabled())
+			return; // Do not download or try to download anything over mobile data
 		
 		AutoUpdater autoUpdater = new AutoUpdater(context);
 		autoUpdater.checkForUpdate();
