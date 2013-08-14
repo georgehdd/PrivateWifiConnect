@@ -9,6 +9,9 @@ public class WifiUtil
 		if (wifiManager == null)
 			return null;
 		
+		if (!wifiManager.isWifiEnabled())
+			return null;
+		
 		String ssid = wifiManager.getConnectionInfo().getSSID();
 		if (ssid.startsWith("\"") && ssid.endsWith("\""))
 		{
