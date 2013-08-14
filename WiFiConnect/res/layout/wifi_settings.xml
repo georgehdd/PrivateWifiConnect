@@ -2,7 +2,8 @@
 <ScrollView xmlns:android="http://schemas.android.com/apk/res/android" android:id="@+id/mainview" 
 		android:orientation="vertical"
 		android:layout_width="fill_parent" 
-		android:layout_height="fill_parent"> 
+		android:layout_height="fill_parent"
+		android:fillViewport="true"> 
 		
   <!-- Main Container -->
 	<LinearLayout style="@style/Main" >
@@ -31,9 +32,7 @@
 			        />
 			
 			</LinearLayout>
-			
-			<ImageView style="@style/MenuItemImage.More" />
-			
+					
 		</RelativeLayout >
   		
   		
@@ -58,8 +57,7 @@
 					
 			</LinearLayout>
 			
-			<ImageView style="@style/MenuItemImage.More" />
-			
+		
 		</RelativeLayout >
  
    	<!-- Seperator -->
@@ -88,8 +86,6 @@
 			        />
 			
 			</LinearLayout>
-			
-			<ImageView style="@style/MenuItemImage.More" />
 			
 		</RelativeLayout >
 

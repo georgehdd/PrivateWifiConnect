@@ -4,7 +4,6 @@
 		<item name="android:orientation">vertical</item>
 		<item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">fill_parent</item>
-        <item name="android:background">@drawable/background</item>
 	</style>
 
     <style name="Entry" >
@@ -35,13 +34,10 @@
     </style>
 
     <style name="Title" parent="@android:style/TextAppearance.Large">
-        <!--<item name="android:textSize">30sp</item> -->
-        <item name="android:textColor">#FFFFFF</item>
         <item name="android:layout_width">fill_parent</item>
         <item name="android:layout_height">wrap_content</item>
         <item name="android:layout_marginLeft">10dp</item>
     	<item name="android:layout_marginRight">10dp</item>
-        <item name="android:typeface">monospace</item>
     </style>
 
     <style name="Summary" parent="@android:style/TextAppearance.Small">
@@ -49,8 +45,6 @@
         <item name="android:layout_height">wrap_content</item>
 		<item name="android:layout_marginLeft">10dp</item>
     	<item name="android:layout_marginRight">10dp</item>
-        <item name="android:textColor">#FFFFFF</item>
-        <item name="android:typeface">monospace</item>
     </style>     
     
     <style name="Seperator">

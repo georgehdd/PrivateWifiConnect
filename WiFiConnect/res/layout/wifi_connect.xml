@@ -42,8 +42,7 @@
 								android:text="@string/connect_description"
 								android:layout_gravity="center_horizontal"
 								android:paddingTop="10px"
-								android:textStyle="bold"
-								android:textColor="#FFFFFFFF" />
+								android:textStyle="bold" />
 						</TableRow>
 					</TableLayout>
 				</TableRow>

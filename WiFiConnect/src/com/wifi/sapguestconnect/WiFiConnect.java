@@ -1,5 +1,7 @@
 package com.wifi.sapguestconnect;
 
+import java.lang.reflect.Field;
+
 import com.wifi.sapguestconnect.autoupdate.AutoUpdater;
 import com.wifi.sapguestconnect.connection.ConnectionErrorMessages;
 import com.wifi.sapguestconnect.connection.ConnectionFacade;
@@ -13,7 +15,6 @@ import com.wifi.sapguestconnect.preferences.PreferencesFacade;
 import com.wifi.sapguestconnect.preferences.SettingsActivity;
 import com.wifi.sapguestconnect.wifi.WatchdogService;
 
-import android.app.Activity;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -21,17 +22,19 @@ import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
+import android.support.v7.app.ActionBarActivity; // requires android-support-v7-appcompat library
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View.OnClickListener;
+import android.view.ViewConfiguration;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class WiFiConnect extends Activity 
+public class WiFiConnect extends ActionBarActivity 
 {
 	private static final int BASE_ITEM_ID = 0;
 	private static final int BASE_GROUP_ID = 0;
@@ -115,7 +118,7 @@ public class WiFiConnect extends Activity
 	private void initLayout()
 	{
 		LogManager.LogFunctionCall("WiFiConnect", "initLayout()");
-		
+		initOverflowMenu();
 		initConnectBtnLayout();
 	}
 	
@@ -148,6 +151,20 @@ public class WiFiConnect extends Activity
 				});
 			}
 		});	
+	}
+	
+	private void initOverflowMenu() {
+
+	     try {
+	        ViewConfiguration config = ViewConfiguration.get(this);
+	        Field menuKeyField = ViewConfiguration.class.getDeclaredField("sHasPermanentMenuKey");
+	        if(menuKeyField != null) {
+	            menuKeyField.setAccessible(true);
+	            menuKeyField.setBoolean(config, false);
+	        }
+	    } catch (Exception e) {
+	        e.printStackTrace();
+	    }
 	}
 	
 	private void displayConnectionAttemptResponseMessages(ConnectionErrorMessages response)
