@@ -39,20 +39,20 @@
 		</intent-filter>
 	</receiver>
 	
-	<activity android:name="WifiSettings" android:theme="@style/Theme.AppCompat.Light">
+	<activity android:name="WifiSettings" android:theme="@style/AppTheme">
 		<intent-filter>
 	
 		</intent-filter>
 	</activity>
 	
-	<activity android:name="WiFiConnect" android:theme="@style/Theme.AppCompat.Light">
+	<activity android:name="WiFiConnect" android:theme="@style/AppTheme">
 		<intent-filter>
 			<action android:name="android.intent.action.MAIN" />
 	       	<category android:name="android.intent.category.LAUNCHER" />
 		</intent-filter>
 	</activity>
 	
-	<activity android:name=".preferences.SettingsActivity" android:theme="@style/Theme.AppCompat.Light" />
+	<activity android:name=".preferences.SettingsActivity" android:theme="@style/AppTheme" />
 </application>
 
 </manifest> 
