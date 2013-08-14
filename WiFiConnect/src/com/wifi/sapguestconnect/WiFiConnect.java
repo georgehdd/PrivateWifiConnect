@@ -322,6 +322,32 @@ public class WiFiConnect extends ActionBarActivity
 							}
 		});
 		
+		// Share Item
+		MenuItem shareMenuItem = menu.add(base_group_id++, // Group ID
+											base_item_id++,  // Item ID
+											base_order_id++, 	// Order ID			
+											mResources.getString(R.string.menu_share)); // Title
+		
+		
+		shareMenuItem.setOnMenuItemClickListener(
+				new OnMenuItemClickListener() {
+							@Override
+							public boolean onMenuItemClick(MenuItem item) {
+								// Prepare String
+								String appName = mResources.getString(R.string.app_name);
+								String appUrl = mResources.getString(R.string.app_url);
+								String shareTxt = mResources.getString(R.string.share_app_text, appName, appUrl);
+								
+								// Start sharing Intent
+								Intent sendIntent = new Intent();
+								sendIntent.setAction(Intent.ACTION_SEND);
+								sendIntent.putExtra(Intent.EXTRA_TEXT, shareTxt);
+								sendIntent.setType("text/plain");
+								startActivity(Intent.createChooser(sendIntent, mResources.getText(R.string.share_using)));
+								return true;
+							}
+		});
+		
 		// About Item
 		MenuItem aboutMenuItem = menu.add(base_group_id++, // Group ID
 										base_item_id++,  // Item ID

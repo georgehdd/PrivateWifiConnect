@@ -4,4 +4,5 @@
 <string name="menu_quit">Quit</string>
 <string name="menu_about">About</string>
 <string name="menu_wifi_settings">Wifi Settings</string>
+<string name="menu_share">Share</string>
 </resources>

@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
     
-    <string name="app_name">Mobile Net Connect</string>
+<string name="app_name">Mobile Net Connect</string>
+<string name="app_url">https://github.com/georgehdd/PrivateWifiConnect/releases</string>
 
 
 
@@ -60,7 +61,7 @@
 <string name="connect">Connect</string>
 <string name="wifi_ssid">Wifi name</string>
 <string name="show_password">Show password</string>
-<string name="ok">Ok</string>
+<string name="ok">OK</string>
 <string name="cancel">Cancel</string>
 <string name="pick_a_network">Pick a network</string>
 <string name="wifi_id">Wifi id</string>
@@ -69,16 +70,18 @@
 <string name="wifi_enable_question">Wifi is disabled. Do you wish to enable it ?</string>
 <string name="wifi_enable_error">Unable to turn on Wifi on your device.\nPlease manually enable Wifi and try again.</string>
 <string name="connect_description">- press to connect to wifi -</string>
-<string name="downloading">Downloading...</string>
+<string name="downloading">Downloading&#8230;</string>
 <string name="new_version_update_question">Newer version available.\nDo you wish to update ?</string>
-<string name="download_starting">Download starting...</string>
+<string name="download_starting">Download starting&#8230;</string>
 <string name="connect_success">Successfully connected.</string>
-<string name="connecting">Connecting...</string>
+<string name="connecting">Connecting&#8230;</string>
 <string name="connect_fail">Connection failed.</string>
 <string name="unknown_wifi">Unknown Wifi. Unable to connect.</string>
 <string name="already_connected">Already connected.</string>
 <string name="wifi_disabled">Wifi disabled. Enable Wifi to connect.</string>
 <string name="credentials_not_found">No credentials found. Configure credentials first.</string>
+<string name="share_app_text">Hey! you can download the %1$s app by visiting %2$s</string>
+<string name="share_using">Share using</string>
 
 <array name="location_text">
 	<item>@string/pref_settings_location_custom_text</item>
