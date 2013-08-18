@@ -2,6 +2,7 @@ package com.wifi.sapguestconnect;
 
 import java.lang.reflect.Field;
 
+import com.actionbarsherlock.app.SherlockActivity;
 import com.wifi.sapguestconnect.autoupdate.AutoUpdater;
 import com.wifi.sapguestconnect.connection.ConnectionErrorMessages;
 import com.wifi.sapguestconnect.connection.ConnectionFacade;
@@ -22,11 +23,11 @@ import android.content.IntentFilter;
 import android.content.res.Resources;
 import android.net.wifi.WifiManager;
 import android.os.Bundle;
-import android.support.v7.app.ActionBarActivity; // requires android-support-v7-appcompat library
-import android.view.Menu;
-import android.view.MenuItem;
+
+import com.actionbarsherlock.view.Menu;
+import com.actionbarsherlock.view.MenuItem;
+import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
 import android.view.View;
-import android.view.MenuItem.OnMenuItemClickListener;
 import android.view.View.OnClickListener;
 import android.view.ViewConfiguration;
 import android.view.animation.Animation;
@@ -34,7 +35,7 @@ import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.Toast;
 
-public class WiFiConnect extends ActionBarActivity 
+public class WiFiConnect extends SherlockActivity 
 {
 	private static final int BASE_ITEM_ID = 0;
 	private static final int BASE_GROUP_ID = 0;
@@ -272,7 +273,6 @@ public class WiFiConnect extends ActionBarActivity
 	/***
 	 * Menu Part
 	 */
-	
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) 
 	{

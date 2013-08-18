@@ -1,16 +1,19 @@
 package com.wifi.sapguestconnect.preferences;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockPreferenceActivity;
+import com.actionbarsherlock.view.MenuItem;
 import com.wifi.sapguestconnect.R;
 import com.wifi.sapguestconnect.log.LogManager;
 
 import android.content.res.Resources;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.Preference;
-import android.preference.PreferenceActivity;
 import android.preference.Preference.OnPreferenceChangeListener;
 import android.preference.Preference.OnPreferenceClickListener;
 
-public class SettingsActivity extends PreferenceActivity 
+public class SettingsActivity extends SherlockPreferenceActivity 
 {
     private Resources resources;
 	
@@ -26,14 +29,10 @@ public class SettingsActivity extends PreferenceActivity
 		// Init Resources
 		resources = getResources();
 		
-//		// TEST LOCALIZATION
-//      String languageToLoad = "he";
-//      Locale locale = new Locale(languageToLoad);
-//      Locale.setDefault(locale);
-//      Configuration config = new Configuration();
-//      config.locale = locale;
-//      resources.updateConfiguration(config, getBaseContext().getResources().getDisplayMetrics());
-//      // END TEST
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) {
+			ActionBar actionBar = getSupportActionBar();
+			actionBar.setDisplayHomeAsUpEnabled(true);
+		}
 		
 		
 		// Set Shared Prefs Name
@@ -177,6 +176,16 @@ public class SettingsActivity extends PreferenceActivity
 		super.onResume();
 		
 		LogManager.LogFunctionCall("SettingsActivity", "onResume()");
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	    case android.R.id.home:
+	    	finish();
+	        return true;
+	    default: return super.onOptionsItemSelected(item);  
+	    }
 	}
 	
 }

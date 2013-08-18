@@ -1,5 +1,7 @@
 package com.wifi.sapguestconnect;
 
+import com.actionbarsherlock.app.ActionBar;
+import com.actionbarsherlock.app.SherlockActivity;
 import com.wifi.sapguestconnect.data.DataFacade;
 import com.wifi.sapguestconnect.dialog.IDialogResult;
 import com.wifi.sapguestconnect.dialog.PasswordDialog;
@@ -8,17 +10,14 @@ import com.wifi.sapguestconnect.dialog.UsernameDialog;
 import com.wifi.sapguestconnect.log.LogManager;
 import com.wifi.sapguestconnect.preferences.PreferencesFacade;
 
-import android.app.Activity;
 import android.os.Build;
 import android.os.Bundle;
-import android.support.v7.app.ActionBar;
-import android.support.v7.app.ActionBarActivity;
-import android.view.MenuItem;
+import com.actionbarsherlock.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.TextView;
 
-public class WifiSettings extends ActionBarActivity
+public class WifiSettings extends SherlockActivity
 {	
 	private LoginData mLoginData = null;
 	

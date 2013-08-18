@@ -55,7 +55,13 @@
 <string name="notif_service_still_running_summary">Guest Wifi is running</string>
 <string name="shared_settings_file_name">WifiConnectSharedSettings</string>
 
-<string name="app_about_summary">Developed by David Agrest, Slava Gorelik and George Haddad.</string>
+<string name="app_about_summary">
+    Developed by David Agrest, Slava Gorelik and George Haddad.   
+</string>
+<string name="app_about_credits">
+    Used libraries:\n
+    ActionBarSherlock\n http://actionbarsherlock.com\n\n
+</string>
 <string name="user_name">Username</string>
 <string name="password">Password</string>
 <string name="connect">Connect</string>
