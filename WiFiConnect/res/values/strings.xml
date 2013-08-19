@@ -61,6 +61,7 @@
 <string name="app_about_credits">
     Used libraries:\n
     ActionBarSherlock\n http://actionbarsherlock.com\n\n
+    Android AppMsg\n https://github.com/johnkil/Android-AppMsg\n\n
 </string>
 <string name="user_name">Username</string>
 <string name="password">Password</string>

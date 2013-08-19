@@ -27,13 +27,15 @@ import android.os.Bundle;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
+import com.devspark.appmsg.AppMsg;
+
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewConfiguration;
 import android.view.animation.Animation;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
-import android.widget.Toast;
+
 
 public class WiFiConnect extends SherlockActivity 
 {
@@ -48,6 +50,8 @@ public class WiFiConnect extends SherlockActivity
 	BroadcastReceiver mWifiWatcher = null;
 	
 	private ScaleAnimation mAnimation = null;
+	
+	private enum ToastStyle { Info, Confirm, Alert }
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -131,7 +135,7 @@ public class WiFiConnect extends SherlockActivity
 	    setViewOnClickListener(R.id.connect_button, new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				WiFiConnect.this.displayToastMessage(mResources.getString(R.string.connecting));
+				WiFiConnect.this.displayToastMessage(mResources.getString(R.string.connecting), ToastStyle.Info);
 				
 				ConnectionFacade.ConnectAsync(WiFiConnect.this, mLoginData, new IConnectionAttemptResponse() 
 				{					
@@ -172,30 +176,43 @@ public class WiFiConnect extends SherlockActivity
 	{
 		int toastMsgResId = -1;
 		
+		ToastStyle style;
 		switch(response)
 		{
 			case ALREADY_CONNECTED:
 				toastMsgResId = R.string.already_connected;
+				style = ToastStyle.Info;
 				break;
 			case SUCCESS:
 				toastMsgResId = R.string.connect_success;
+				style = ToastStyle.Info;
 				break;
 			case FAIL:
 				toastMsgResId = R.string.connect_fail;
+				style = ToastStyle.Alert;
 				break;
 			case UNKNOWN_WIFI:
 				toastMsgResId = R.string.unknown_wifi;
+				style = ToastStyle.Confirm;
 				break;
 			case NO_CREDENTIALS:
 				toastMsgResId = R.string.credentials_not_found;
+				style = ToastStyle.Alert;
 				break;
 			case WIFI_TURNED_OFF:
 				toastMsgResId = R.string.wifi_disabled;
+				style = ToastStyle.Alert;
+				break;
+			default:
+				toastMsgResId = R.string.connect_fail;
+				style = ToastStyle.Alert;
 				break;
 		}
 		
 		if (toastMsgResId != -1)
-			WiFiConnect.this.displayToastMessage(mResources.getString(toastMsgResId));
+		{
+			WiFiConnect.this.displayToastMessage(mResources.getString(toastMsgResId), style);
+		}
 	}
 	
 	private void setViewOnClickListener(int viewId, OnClickListener onClickListener)
@@ -259,15 +276,32 @@ public class WiFiConnect extends SherlockActivity
 	}
 	
     // Display Toast-Message
-	public void displayToastMessage(String message) 
+	public void displayToastMessage(String message, ToastStyle style) 
 	{
 		if ((message == null) || (message.trim().length() == 0))
 		{
 			return;
 		}
 		
-		Toast toastMsg = Toast.makeText(this, message, Toast.LENGTH_SHORT);
-		toastMsg.show();
+		com.devspark.appmsg.AppMsg.Style appMsgStyle;
+		switch(style)
+		{
+			case Alert:
+				appMsgStyle = AppMsg.STYLE_ALERT;
+				break;
+			case Confirm:
+				appMsgStyle = AppMsg.STYLE_CONFIRM;
+				break;
+			case Info:
+				appMsgStyle = AppMsg.STYLE_INFO;
+				break;
+			default:
+				appMsgStyle = AppMsg.STYLE_INFO;
+		}
+		
+		AppMsg.makeText(this, message, appMsgStyle).show();
+		//Toast toastMsg = Toast.makeText(this, message, Toast.LENGTH_SHORT);
+		//toastMsg.show();
 	}
 	
 	/***
