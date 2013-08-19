@@ -4,14 +4,13 @@ import com.wifi.sapguestconnect.R;
 import com.wifi.sapguestconnect.common.CommonFacade;
 import com.wifi.sapguestconnect.log.LogManager;
 
-import android.app.Dialog;
+import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.res.Resources;
+import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
-import android.view.Window;
-import android.view.WindowManager.LayoutParams;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -21,51 +20,45 @@ public class AboutDialog
 	{		
 		LogManager.LogFunctionCall("AboutDialog", "show()");
 		
+		AlertDialog.Builder builder = new AlertDialog.Builder(context);
 		Resources resources = context.getResources();
-		Dialog dialog = new Dialog(context);
+		Activity activity = (Activity) context;
+		LayoutInflater inflater = activity.getLayoutInflater();
+		
 
-		// Set Title
-		dialog.setContentView(R.layout.about_dialog);
-		dialog.setTitle(resources.getString(R.string.app_name)+" "+CommonFacade.getVersionName(context));
+		builder.setTitle(resources.getString(R.string.app_name) + " " + CommonFacade.getVersionName(context));
 
+		builder.setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+	           public void onClick(DialogInterface dialog, int id) {
+	               
+	           }
+	    });
+		
+		
+		View dialogView = inflater.inflate(R.layout.about_dialog, null);
+		
 		// Set Text
-		TextView text = (TextView) dialog.findViewById(R.id.text);
+		TextView text = (TextView) dialogView.findViewById(R.id.text);
 		text.setText(resources.getString(R.string.app_about_summary));
 		
 		// Set Credits Text
-		TextView creditsTxt = (TextView) dialog.findViewById(R.id.creditsTxt);
+		TextView creditsTxt = (TextView) dialogView.findViewById(R.id.creditsTxt);
 		creditsTxt.setText(resources.getString(R.string.app_about_credits));
 		
 		// Set Image
-		ImageView image = (ImageView) dialog.findViewById(R.id.image);
+		ImageView image = (ImageView) dialogView.findViewById(R.id.image);
 		image.setImageResource(R.drawable.hp_connect);
 		
-		Button okBtn = (Button) dialog.findViewById(R.id.ok_btn);
-		okBtn.setOnClickListener(new OkBtnOnClickListener(dialog));
-		
 		// Make dialog cancellable on touch outside;
-		dialog.setCanceledOnTouchOutside(true);
+		//dialog.setCanceledOnTouchOutside(true);
 		
+		builder.setView(dialogView);
+		AlertDialog dialog = builder.create();
 		dialog.show();
 		
-		Window window = dialog.getWindow();
-		window.setLayout(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
+		//Window window = dialog.getWindow();
+		//window.setLayout(LayoutParams.FILL_PARENT, LayoutParams.WRAP_CONTENT);
 		 
 	}
 
-	static private class OkBtnOnClickListener implements OnClickListener
-	{
-
-		private Dialog mDialog;
-		public OkBtnOnClickListener(Dialog dialog)
-		{
-			this.mDialog = dialog;
-		}
-		
-		@Override
-		public void onClick(View v) {
-			mDialog.dismiss();
-		}
-		
-	}
 }
