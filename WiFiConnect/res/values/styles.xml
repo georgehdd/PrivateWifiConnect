@@ -1,6 +1,17 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:android="http://schemas.android.com/apk/res/android">
-    <style name="AppTheme" parent="Theme.Sherlock.Light.DarkActionBar" />
+    
+    <color name="actionbar_background_color">#05bcfe</color>
+    
+    <style name="AppTheme" parent="Theme.Sherlock.Light.DarkActionBar" >
+        <item name="actionBarStyle">@style/AppTheme.ActionBar.Style</item>
+	</style>
+	
+    <style name="AppTheme.ActionBar.Style" parent="Widget.Sherlock.ActionBar">
+    	<item name="background">@color/actionbar_background_color</item>
+   		<item name="android:background">@color/actionbar_background_color</item>
+	</style>
+
     
 	<style name="Main">
 		<item name="android:orientation">vertical</item>
