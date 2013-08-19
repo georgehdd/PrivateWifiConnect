@@ -8,13 +8,13 @@
 	<RelativeLayout style="@style/Main" >	
 	
 		<!-- Header -->
-		<RelativeLayout android:id="@+id/layoutHeaderMain"
+		<!-- RelativeLayout android:id="@+id/layoutHeaderMain"
 			android:layout_width="fill_parent"
 			android:layout_height="40dp"
 			android:layout_gravity="center_horizontal"
 			android:background="#A0909090">
 		
-		</RelativeLayout>
+		</RelativeLayout>  -->
 	
 		<ScrollView android:id="@+id/mainview" 
 		android:orientation="vertical"
