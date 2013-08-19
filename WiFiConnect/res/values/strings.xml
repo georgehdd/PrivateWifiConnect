@@ -52,7 +52,7 @@
 <string name="pref_settings_vibrate_key">notificationVibrate</string>
 
 
-<string name="notif_service_still_running_summary">Guest Wifi is running</string>
+<string name="notif_service_still_running_summary">Connected to a familiar Wifi</string>
 <string name="shared_settings_file_name">WifiConnectSharedSettings</string>
 
 <string name="app_about_summary">
