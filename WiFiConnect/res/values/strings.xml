@@ -64,9 +64,12 @@
     Android AppMsg\n https://github.com/johnkil/Android-AppMsg\n\n
 </string>
 <string name="user_name">Username</string>
+<string name="enter_username">Enter your username</string>
 <string name="password">Password</string>
+<string name="enter_password">Enter your password</string>
 <string name="connect">Connect</string>
 <string name="wifi_ssid">Wifi name</string>
+<string name="select_wifi">Select your wifi</string>
 <string name="show_password">Show password</string>
 <string name="ok">OK</string>
 <string name="cancel">Cancel</string>
@@ -89,6 +92,8 @@
 <string name="credentials_not_found">No credentials found. Configure credentials first.</string>
 <string name="share_app_text">Hey! you can download the %1$s app by visiting %2$s</string>
 <string name="share_using">Share using</string>
+<string name="logo">Application Logo</string>
+<string name="save">Save</string>
 
 <array name="location_text">
 	<item>@string/pref_settings_location_custom_text</item>

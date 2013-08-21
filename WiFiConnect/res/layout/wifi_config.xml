@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent" >
+
+    
+    <ImageView
+        android:id="@+id/logo_image"
+        android:contentDescription="@string/logo"
+		android:layout_height="100dp"
+        android:layout_width="wrap_content"
+        android:layout_alignParentTop="true"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="30dp"
+        android:src="@drawable/hp_connect" />
+    
+    <LinearLayout
+	android:id="@+id/username_layout"
+	android:orientation="horizontal"
+    android:layout_centerHorizontal="true"
+	android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_below="@+id/logo_image"
+    android:layout_marginTop="20dp"
+	>
+
+	    <ImageView
+	        android:id="@+id/username_image"
+	        android:contentDescription="@string/enter_username"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:background="@color/theme_main_color"
+	        android:src="@drawable/user32"
+	        android:padding="2dp" />
+
+	    <EditText
+	        android:id="@+id/username_input"
+	        android:layout_width="220dp"
+	        android:layout_height="fill_parent"
+	        android:background="@android:color/transparent"
+	        android:hint="@string/enter_username"
+	        android:paddingLeft="3dp"
+	        android:paddingRight="10dp" />
+
+	</LinearLayout>
+	
+   	<LinearLayout
+	android:id="@+id/password_layout"
+	android:orientation="horizontal"
+	android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignLeft="@+id/username_layout"
+    android:layout_alignRight="@+id/username_layout"
+    android:layout_below="@+id/username_layout"
+    android:layout_marginTop="20dp"
+	>
+
+	    <ImageView
+	        android:id="@+id/password_image"
+	        android:contentDescription="@string/enter_password"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:background="@color/theme_main_color"
+	        android:src="@drawable/lock32"
+	        android:padding="2dp" />
+
+	    <EditText android:id="@+id/password_input"
+	              android:layout_width="fill_parent"
+	              android:layout_height="fill_parent"
+	              android:hint="@string/enter_password"
+	              android:paddingLeft="3dp"
+	              android:paddingRight="10dp"
+	              android:background="@android:color/transparent"
+	              android:inputType="textPassword" 
+	              />
+	</LinearLayout>
+	
+   	<LinearLayout
+	android:id="@+id/wifi_layout"
+	android:orientation="horizontal"
+	android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:layout_alignLeft="@+id/password_layout"
+    android:layout_alignRight="@+id/password_layout"
+    android:layout_below="@+id/password_layout"
+    android:layout_marginTop="20dp"
+	>
+
+	    <ImageView
+	        android:id="@+id/wifi_image"
+	        android:contentDescription="@string/select_wifi"
+	        android:layout_width="wrap_content"
+	        android:layout_height="wrap_content"
+	        android:background="@color/theme_main_color"
+	        android:src="@drawable/wifi32"
+	        android:padding="2dp" />
+
+	    <EditText android:id="@+id/wifi_input"
+	              android:layout_width="fill_parent"
+	              android:layout_height="fill_parent"
+	              android:hint="@string/select_wifi"
+	              android:focusable="false"
+        		  android:focusableInTouchMode="false"
+        	 	  android:clickable="true"
+	              android:paddingLeft="3dp"
+	              android:paddingRight="10dp"
+	              android:background="@android:color/transparent"
+	              />
+	</LinearLayout>
+
+    <Button
+        android:id="@+id/storeDataBtn"
+        style="@style/AppTheme.Button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignLeft="@+id/wifi_layout"
+        android:layout_alignRight="@+id/wifi_layout"
+        android:layout_below="@+id/wifi_layout"
+        android:layout_marginTop="20dp"
+        android:text="@string/save"
+         />
+
+</RelativeLayout>

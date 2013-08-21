@@ -53,6 +53,9 @@
 	</activity>
 	
 	<activity android:name=".preferences.SettingsActivity" android:theme="@style/AppTheme" />
+	
+	<activity android:name="WifiConfig" android:theme="@style/AppTheme" />
+
 </application>
 
 </manifest> 
