@@ -39,7 +39,7 @@
 	        android:layout_height="fill_parent"
 	        android:background="@android:color/transparent"
 	        android:hint="@string/enter_username"
-	        android:paddingLeft="3dp"
+	        android:paddingLeft="5dp"
 	        android:paddingRight="10dp" />
 
 	</LinearLayout>
@@ -68,7 +68,7 @@
 	              android:layout_width="fill_parent"
 	              android:layout_height="fill_parent"
 	              android:hint="@string/enter_password"
-	              android:paddingLeft="3dp"
+	              android:paddingLeft="5dp"
 	              android:paddingRight="10dp"
 	              android:background="@android:color/transparent"
 	              android:inputType="textPassword" 
@@ -102,7 +102,7 @@
 	              android:focusable="false"
         		  android:focusableInTouchMode="false"
         	 	  android:clickable="true"
-	              android:paddingLeft="3dp"
+	              android:paddingLeft="5dp"
 	              android:paddingRight="10dp"
 	              android:background="@android:color/transparent"
 	              />
