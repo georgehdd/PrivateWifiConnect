@@ -309,9 +309,9 @@ public class WiFiConnect extends SherlockActivity
 		MenuItem wifiConfigMenuItem = menu.add(base_group_id++, // Group ID
 												base_item_id++,  // Item ID
 												base_order_id++, 	// Order ID			
-											"Wifi Config"); // Title
+												mResources.getString(R.string.menu_wifi_settings)); // Title
 
-		wifiConfigMenuItem.setIcon(R.drawable.light_48);
+		wifiConfigMenuItem.setIcon(R.drawable.wifi_48);
 		
 		wifiConfigMenuItem.setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
