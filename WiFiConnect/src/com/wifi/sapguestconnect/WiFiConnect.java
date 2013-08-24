@@ -81,6 +81,13 @@ public class WiFiConnect extends SherlockActivity
 	    PreferencesFacade.initLocation(this);
 	}
 	
+	@Override
+	protected void onStop()
+	{
+		stopWifiWatcher();
+	    super.onStop();
+	}
+	
 	
 	/***
 	 * Broadcast receiver for watching Wifi
@@ -100,6 +107,11 @@ public class WiFiConnect extends SherlockActivity
 				}
 			};
 	        registerReceiver(mWifiWatcher, intentFilter);
+	}
+	
+	private void stopWifiWatcher()
+	{
+		unregisterReceiver(mWifiWatcher);
 	}
 	
 	private void initAnimation()
@@ -400,6 +412,25 @@ public class WiFiConnect extends SherlockActivity
 								return true;
 							}
 		});
+		/*
+		// Wifi Config Item
+		MenuItem wifiConfigMenuItem = menu.add(base_group_id++, // Group ID
+												base_item_id++,  // Item ID
+												base_order_id++, 	// Order ID			
+											"Wifi Config"); // Title
+
+		wifiConfigMenuItem.setIcon(R.drawable.light_48);
+		
+		wifiConfigMenuItem.setOnMenuItemClickListener(
+				new OnMenuItemClickListener() {
+							@Override
+							public boolean onMenuItemClick(MenuItem item) 
+							{
+					            Intent wifiConfigActivity = new Intent(getBaseContext(), WifiConfig.class);
+					            startActivity(wifiConfigActivity);
+								return true;
+							}
+		});*/
 
 		return true;
 	}
