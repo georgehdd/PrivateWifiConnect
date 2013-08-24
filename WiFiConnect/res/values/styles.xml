@@ -22,6 +22,7 @@
         <item name="android:layout_height">fill_parent</item>
 	</style>
 
+	
     <style name="Entry" >
 		<!-- Styles: http://android.git.kernel.org/?p=platform/frameworks/base.git;a=tree;f=core/res/res/drawable;hb=HEAD -->
     	<item name="android:background">@android:drawable/menuitem_background</item>
@@ -89,7 +90,7 @@
     </style>
     
     <style name="AppTheme.Button">
-        <item name="android:background">@color/theme_main_color</item>
+        <item name="android:background">@drawable/button_blue</item>
         <item name="android:textColor">@android:color/white</item>
         <item name="android:textSize">20sp</item>
     </style>
