@@ -3,10 +3,14 @@ package com.wifi.sapguestconnect;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
+import android.view.View;
+import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
 import com.actionbarsherlock.app.SherlockActivity;
+import com.wifi.sapguestconnect.data.DataFacade;
 import com.wifi.sapguestconnect.dialog.IDialogResult;
 import com.wifi.sapguestconnect.dialog.SelectNetworkListener;
 import com.wifi.sapguestconnect.log.LogManager;
@@ -22,24 +26,31 @@ public class WifiConfig extends SherlockActivity
 	    LogManager.LogFunctionCall("WifiConfig", "onCreate()");
 	    
 		initUILayout();
+	    loadLoginData();
+	}
+	
+	private void loadLoginData()
+	{
+		LogManager.LogFunctionCall("WifiConfig", "loadLoginData()");
+		
+	    LoginData loadedLoginData = DataFacade.LoadLoginData(this);
+	    setUserName(loadedLoginData.getUser());
+	    setPassword(loadedLoginData.getPass());
+	    setWifiSSID(loadedLoginData.getSSID());
 	}
 
 	private void initUILayout() 
 	{
 	    LogManager.LogFunctionCall("WifiConfig", "initUILayout()");
-	    
-	    
+
 	    initPasswordLayout();
-	    //
 	    initSSIDEntryLayout();
-	    
-	    // User: https://www.iconfinder.com/icons/118589/user_icon#size=128
-	    // Pass: https://www.iconfinder.com/icons/111044/closed_lock_secure_icon#size=128
-	    // Wifi: https://www.iconfinder.com/icons/174752/wifi_icon#size=128
+	    initSaveBtnLayout();
 	}
 	
 	private void initPasswordLayout()
 	{
+		LogManager.LogFunctionCall("WifiConfig", "initPasswordLayout()");
 		EditText password = (EditText) findViewById(R.id.password_input);
 		password.setTypeface(Typeface.DEFAULT);
 		password.setTransformationMethod(new PasswordTransformationMethod());
@@ -47,6 +58,7 @@ public class WifiConfig extends SherlockActivity
 	
 	private void initSSIDEntryLayout() 
 	{
+		LogManager.LogFunctionCall("WifiConfig", "initSSIDEntryLayout()");
 		EditText wifiPicker = (EditText)findViewById(R.id.wifi_input);
 		
 		wifiPicker.setOnClickListener(new SelectNetworkListener(this, new IDialogResult() {
@@ -60,26 +72,66 @@ public class WifiConfig extends SherlockActivity
 		));
 	}
 	
+	private void initSaveBtnLayout()
+	{
+		LogManager.LogFunctionCall("WifiConfig", "initSaveBtnLayout()");
+		Button storeDataBtn = (Button)findViewById(R.id.storeDataBtn);
+		storeDataBtn.setOnClickListener( new OnClickListener() {
+			@Override
+			public void onClick(View v) 
+			{
+				LoginData loginData = new LoginData();
+				loginData.setPass(WifiConfig.this.getPassword());
+				loginData.setUser(WifiConfig.this.getUserName());
+				loginData.setSSID(WifiConfig.this.getWifiSSID());
+				DataFacade.PersistLoginData(WifiConfig.this, loginData);
+			}
+		});
+	}
+	
+	private void setUserName(String username) 
+	{
+		LogManager.LogFunctionCall("WifiConfig", "setUserName()");
+		EditText userNameInput = (EditText)findViewById(R.id.username_input);
+		userNameInput.setText(username);
+	}
+	
+	private String getUserName() 
+	{
+		LogManager.LogFunctionCall("WifiConfig", "getUserName()");
+		EditText userNameInput = (EditText)findViewById(R.id.username_input);
+		return userNameInput.getText().toString();
+	}
+
+	private void setPassword(String password) 
+	{
+		LogManager.LogFunctionCall("WifiConfig", "setPassword()");
+		EditText passwordInput = (EditText)findViewById(R.id.password_input);
+		passwordInput.setText(password);
+	}
+	
+	private String getPassword() 
+	{
+		LogManager.LogFunctionCall("WifiConfig", "getPassword()");
+		EditText passwordInput = (EditText)findViewById(R.id.password_input);
+		return passwordInput.toString();
+	}
+	
 	private void setWifiSSID(String wifiSSID) 
 	{
-		LogManager.LogFunctionCall("WifiSettings", "setWifiSSID()");
-		
-		//validateLoginDataMember();
-		
-		if (wifiSSID != null)
-		{
-			//mLoginData.setSSID(wifiSSID);
-		}
-		else
-		{
-			//mLoginData.setSSID("");
-		}
-		
-		// Commit to DB
-		//persistLoginData();
+		LogManager.LogFunctionCall("WifiConfig", "setWifiSSID()");
 		
 		// Update UI
 		TextView ssidText = (TextView)findViewById(R.id.wifi_input);
 		ssidText.setText(wifiSSID);
+	}
+	
+	private String getWifiSSID() 
+	{
+		LogManager.LogFunctionCall("WifiConfig", "getWifiSSID()");
+		
+		// Update UI
+		TextView ssidText = (TextView)findViewById(R.id.wifi_input);
+		return ssidText.getText().toString();
 	}
 }
