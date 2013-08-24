@@ -57,8 +57,6 @@
     android:layout_alignRight="@+id/username_layout"
     android:layout_below="@+id/username_layout"
     android:layout_marginTop="20dp"
-	android:focusable="true"
-	android:focusableInTouchMode="true"
 	>
 
 	    <ImageView
@@ -91,8 +89,6 @@
     android:layout_alignRight="@+id/password_layout"
     android:layout_below="@+id/password_layout"
     android:layout_marginTop="20dp"
-	android:focusable="true"
-	android:focusableInTouchMode="true"
 	>
 
 	    <ImageView
