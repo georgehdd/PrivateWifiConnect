@@ -42,7 +42,9 @@
 	        android:background="@android:color/transparent"
 	        android:hint="@string/enter_username"
 	        android:paddingLeft="5dp"
-	        android:paddingRight="10dp" />
+	        android:paddingRight="10dp"
+	        android:singleLine="true"
+	         />
 
 	</LinearLayout>
 	
@@ -76,6 +78,7 @@
 	              android:paddingRight="10dp"
 	              android:background="@android:color/transparent"
 	              android:inputType="textPassword" 
+	              android:singleLine="true"
 	              />
 	</LinearLayout>
 	
@@ -111,6 +114,7 @@
 	              android:paddingLeft="5dp"
 	              android:paddingRight="10dp"
 	              android:background="@android:color/transparent"
+	              android:singleLine="true"
 	              />
 	</LinearLayout>
 

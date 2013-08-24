@@ -1,6 +1,7 @@
 package com.wifi.sapguestconnect;
 
 import android.graphics.Typeface;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.method.PasswordTransformationMethod;
 import android.view.View;
@@ -9,11 +10,14 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
+import com.actionbarsherlock.view.MenuItem;
 import com.wifi.sapguestconnect.data.DataFacade;
 import com.wifi.sapguestconnect.dialog.IDialogResult;
 import com.wifi.sapguestconnect.dialog.SelectNetworkListener;
 import com.wifi.sapguestconnect.log.LogManager;
+import com.wifi.sapguestconnect.preferences.PreferencesFacade;
 
 public class WifiConfig extends SherlockActivity 
 {
@@ -46,6 +50,12 @@ public class WifiConfig extends SherlockActivity
 	    initPasswordLayout();
 	    initSSIDEntryLayout();
 	    initSaveBtnLayout();
+	    
+		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) 
+		{
+			ActionBar actionBar = getSupportActionBar();
+			actionBar.setDisplayHomeAsUpEnabled(true);
+		}
 	}
 	
 	private void initPasswordLayout()
@@ -85,6 +95,7 @@ public class WifiConfig extends SherlockActivity
 				loginData.setUser(WifiConfig.this.getUserName());
 				loginData.setSSID(WifiConfig.this.getWifiSSID());
 				DataFacade.PersistLoginData(WifiConfig.this, loginData);
+				PreferencesFacade.refreshRunAsService(WifiConfig.this);
 			}
 		});
 	}
@@ -133,5 +144,15 @@ public class WifiConfig extends SherlockActivity
 		// Update UI
 		TextView ssidText = (TextView)findViewById(R.id.wifi_input);
 		return ssidText.getText().toString();
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    switch (item.getItemId()) {
+	    case android.R.id.home:
+	    	finish();
+	        return true;
+	    default: return super.onOptionsItemSelected(item);  
+	    }
 	}
 }
