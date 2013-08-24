@@ -94,6 +94,10 @@
 <string name="share_using">Share using</string>
 <string name="logo">Application Logo</string>
 <string name="save">Save</string>
+<string name="saved_data">WIFI data saved</string>
+<string name="save_failed_ssid_missing">Saving failed, WIFI data missing</string>
+<string name="save_failed_username_missing">Saving failed, username missing</string>
+<string name="save_failed_password_missing">Saving failed, password missing</string>
 
 <array name="location_text">
 	<item>@string/pref_settings_location_custom_text</item>

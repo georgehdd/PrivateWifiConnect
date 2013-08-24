@@ -1,5 +1,6 @@
 package com.wifi.sapguestconnect;
 
+import android.content.res.Resources;
 import android.graphics.Typeface;
 import android.os.Build;
 import android.os.Bundle;
@@ -13,6 +14,8 @@ import android.widget.TextView;
 import com.actionbarsherlock.app.ActionBar;
 import com.actionbarsherlock.app.SherlockActivity;
 import com.actionbarsherlock.view.MenuItem;
+import com.wifi.sapguestconnect.common.CommonConsts;
+import com.wifi.sapguestconnect.common.ToastUtil;
 import com.wifi.sapguestconnect.data.DataFacade;
 import com.wifi.sapguestconnect.dialog.IDialogResult;
 import com.wifi.sapguestconnect.dialog.SelectNetworkListener;
@@ -21,6 +24,9 @@ import com.wifi.sapguestconnect.preferences.PreferencesFacade;
 
 public class WifiConfig extends SherlockActivity 
 {
+	private boolean mIsFirstRun;
+	private Resources mResources;
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
 	{
@@ -28,6 +34,13 @@ public class WifiConfig extends SherlockActivity
 		setContentView(R.layout.wifi_config);
 		
 	    LogManager.LogFunctionCall("WifiConfig", "onCreate()");
+	    
+	    Bundle extras = getIntent().getExtras();
+	    Boolean isFirstRun = extras.getBoolean(CommonConsts.IS_FIRST_RUN);
+	    this.mIsFirstRun = isFirstRun != null ? isFirstRun.booleanValue() : false;
+	    
+		// Init Resources
+		this.mResources = this.getResources();
 	    
 		initUILayout();
 	    loadLoginData();
@@ -51,7 +64,7 @@ public class WifiConfig extends SherlockActivity
 	    initSSIDEntryLayout();
 	    initSaveBtnLayout();
 	    
-		if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) 
+		if (this.mIsFirstRun == false && Build.VERSION.SDK_INT >= Build.VERSION_CODES.ICE_CREAM_SANDWICH) 
 		{
 			ActionBar actionBar = getSupportActionBar();
 			actionBar.setDisplayHomeAsUpEnabled(true);
@@ -90,14 +103,57 @@ public class WifiConfig extends SherlockActivity
 			@Override
 			public void onClick(View v) 
 			{
+				LogManager.LogFunctionCall("WifiConfig", "initSaveBtnLayout().onClick()");
 				LoginData loginData = new LoginData();
 				loginData.setPass(WifiConfig.this.getPassword());
 				loginData.setUser(WifiConfig.this.getUserName());
 				loginData.setSSID(WifiConfig.this.getWifiSSID());
+				
+				if (!WifiConfig.this.validateLoginData(loginData))
+					return;
+				
 				DataFacade.PersistLoginData(WifiConfig.this, loginData);
+				
 				PreferencesFacade.refreshRunAsService(WifiConfig.this);
+				
+				if (mIsFirstRun == true)
+				{
+					finish();
+				}
+				else
+				{
+					displayToastMessage(WifiConfig.this.mResources.getString(R.string.saved_data) , ToastUtil.Style.Info);
+				}
 			}
 		});
+	}
+	
+	private boolean validateLoginData(LoginData loginData)
+	{
+		int errorStringId = 0;
+		
+		// Validate
+		if (loginData.getUser().trim().equals(""))
+		{
+			errorStringId = R.string.save_failed_username_missing; 
+		}
+		else if (loginData.getPass().trim().equals(""))
+		{
+			errorStringId = R.string.save_failed_password_missing; 
+		}
+		else if (loginData.getSSID().trim().equals(""))
+		{
+			errorStringId = R.string.save_failed_ssid_missing; 
+		}
+		
+		// Return Correct Data
+		if (errorStringId != 0)
+		{
+			ToastUtil.Display(WifiConfig.this, WifiConfig.this.mResources.getString(errorStringId) , ToastUtil.Style.Alert);
+			return false;
+		}
+		
+		return true;
 	}
 	
 	private void setUserName(String username) 
@@ -125,7 +181,7 @@ public class WifiConfig extends SherlockActivity
 	{
 		LogManager.LogFunctionCall("WifiConfig", "getPassword()");
 		EditText passwordInput = (EditText)findViewById(R.id.password_input);
-		return passwordInput.toString();
+		return passwordInput.getText().toString();
 	}
 	
 	private void setWifiSSID(String wifiSSID) 
@@ -148,11 +204,23 @@ public class WifiConfig extends SherlockActivity
 	
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
-	    switch (item.getItemId()) {
-	    case android.R.id.home:
-	    	finish();
-	        return true;
-	    default: return super.onOptionsItemSelected(item);  
+		
+		if (this.mIsFirstRun == true)
+			return super.onOptionsItemSelected(item);
+		
+	    switch (item.getItemId()) 
+	    {
+		    case android.R.id.home:
+		    	finish();
+		        return true;
+		    default: 
+		    	return super.onOptionsItemSelected(item);  
 	    }
+	}
+	
+    // Display Toast-Message
+	private void displayToastMessage(String message, ToastUtil.Style style) 
+	{
+		ToastUtil.Display(this, message, style);
 	}
 }

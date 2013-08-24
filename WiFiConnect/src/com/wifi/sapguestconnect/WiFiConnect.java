@@ -4,6 +4,8 @@ import java.lang.reflect.Field;
 
 import com.actionbarsherlock.app.SherlockActivity;
 import com.wifi.sapguestconnect.autoupdate.AutoUpdater;
+import com.wifi.sapguestconnect.common.CommonConsts;
+import com.wifi.sapguestconnect.common.ToastUtil;
 import com.wifi.sapguestconnect.connection.ConnectionErrorMessages;
 import com.wifi.sapguestconnect.connection.ConnectionFacade;
 import com.wifi.sapguestconnect.connection.ConnectionStatus;
@@ -27,7 +29,6 @@ import android.os.Bundle;
 import com.actionbarsherlock.view.Menu;
 import com.actionbarsherlock.view.MenuItem;
 import com.actionbarsherlock.view.MenuItem.OnMenuItemClickListener;
-import com.devspark.appmsg.AppMsg;
 
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -51,7 +52,6 @@ public class WiFiConnect extends SherlockActivity
 	
 	private ScaleAnimation mAnimation = null;
 	
-	private enum ToastStyle { Info, Confirm, Alert }
 
 	@Override
 	protected void onCreate(Bundle savedInstanceState) 
@@ -135,7 +135,7 @@ public class WiFiConnect extends SherlockActivity
 	    setViewOnClickListener(R.id.connect_button, new OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				WiFiConnect.this.displayToastMessage(mResources.getString(R.string.connecting), ToastStyle.Info);
+				WiFiConnect.this.displayToastMessage(mResources.getString(R.string.connecting), ToastUtil.Style.Info);
 				
 				ConnectionFacade.ConnectAsync(WiFiConnect.this, mLoginData, new IConnectionAttemptResponse() 
 				{					
@@ -176,36 +176,36 @@ public class WiFiConnect extends SherlockActivity
 	{
 		int toastMsgResId = -1;
 		
-		ToastStyle style;
+		ToastUtil.Style style;
 		switch(response)
 		{
 			case ALREADY_CONNECTED:
 				toastMsgResId = R.string.already_connected;
-				style = ToastStyle.Info;
+				style = ToastUtil.Style.Info;
 				break;
 			case SUCCESS:
 				toastMsgResId = R.string.connect_success;
-				style = ToastStyle.Info;
+				style = ToastUtil.Style.Info;
 				break;
 			case FAIL:
 				toastMsgResId = R.string.connect_fail;
-				style = ToastStyle.Alert;
+				style = ToastUtil.Style.Alert;
 				break;
 			case UNKNOWN_WIFI:
 				toastMsgResId = R.string.unknown_wifi;
-				style = ToastStyle.Confirm;
+				style = ToastUtil.Style.Confirm;
 				break;
 			case NO_CREDENTIALS:
 				toastMsgResId = R.string.credentials_not_found;
-				style = ToastStyle.Alert;
+				style = ToastUtil.Style.Alert;
 				break;
 			case WIFI_TURNED_OFF:
 				toastMsgResId = R.string.wifi_disabled;
-				style = ToastStyle.Alert;
+				style = ToastUtil.Style.Alert;
 				break;
 			default:
 				toastMsgResId = R.string.connect_fail;
-				style = ToastStyle.Alert;
+				style = ToastUtil.Style.Alert;
 				break;
 		}
 		
@@ -233,11 +233,20 @@ public class WiFiConnect extends SherlockActivity
 		// Refresh Login Data
 		this.mLoginData= DataFacade.LoadLoginData(this);
 		
+		if ((this.mLoginData.getSSID() == null) || (this.mLoginData.getSSID().trim().equals("")))
+		{
+            Intent wifiConfigActivity = new Intent(getBaseContext(), WifiConfig.class);
+            wifiConfigActivity.putExtra(CommonConsts.IS_FIRST_RUN, true);
+            startActivity(wifiConfigActivity);
+		}
+		
 		refreshConnectionStatus();
 	}
 	
 	private void refreshConnectionStatus()
 	{
+		LogManager.LogFunctionCall("WiFiConnect", "refreshConnectionStatus()");
+		
 		ConnectionFacade.isConnectedAsync(this, new IConnectionStatusResponse() 
 		{
 			@Override
@@ -276,32 +285,9 @@ public class WiFiConnect extends SherlockActivity
 	}
 	
     // Display Toast-Message
-	public void displayToastMessage(String message, ToastStyle style) 
+	public void displayToastMessage(String message, ToastUtil.Style style) 
 	{
-		if ((message == null) || (message.trim().length() == 0))
-		{
-			return;
-		}
-		
-		com.devspark.appmsg.AppMsg.Style appMsgStyle;
-		switch(style)
-		{
-			case Alert:
-				appMsgStyle = AppMsg.STYLE_ALERT;
-				break;
-			case Confirm:
-				appMsgStyle = AppMsg.STYLE_CONFIRM;
-				break;
-			case Info:
-				appMsgStyle = AppMsg.STYLE_INFO;
-				break;
-			default:
-				appMsgStyle = AppMsg.STYLE_INFO;
-		}
-		
-		AppMsg.makeText(this, message, appMsgStyle).show();
-		//Toast toastMsg = Toast.makeText(this, message, Toast.LENGTH_SHORT);
-		//toastMsg.show();
+		ToastUtil.Display(this, message, style);
 	}
 	
 	/***
@@ -318,21 +304,23 @@ public class WiFiConnect extends SherlockActivity
 		int base_item_id = BASE_ITEM_ID;
 		int base_order_id = BASE_ORDER_ID;
 		
-		// Wifi Settings Item
-		MenuItem wifiSettingsMenuItem = menu.add(base_group_id++, // Group ID
-									base_item_id++,  // Item ID
-									base_order_id++, 	// Order ID			
-									mResources.getString(R.string.menu_wifi_settings)); // Title
+
+		// Wifi Config Item
+		MenuItem wifiConfigMenuItem = menu.add(base_group_id++, // Group ID
+												base_item_id++,  // Item ID
+												base_order_id++, 	// Order ID			
+											"Wifi Config"); // Title
+
+		wifiConfigMenuItem.setIcon(R.drawable.light_48);
 		
-		
-		wifiSettingsMenuItem.setIcon(R.drawable.wifi_48);
-		
-		wifiSettingsMenuItem.setOnMenuItemClickListener(
+		wifiConfigMenuItem.setOnMenuItemClickListener(
 				new OnMenuItemClickListener() {
 							@Override
-							public boolean onMenuItemClick(MenuItem item) {
-					            Intent WifiSettingsActivity = new Intent(getBaseContext(), WifiSettings.class);
-					            startActivity(WifiSettingsActivity);
+							public boolean onMenuItemClick(MenuItem item) 
+							{
+					            Intent wifiConfigActivity = new Intent(getBaseContext(), WifiConfig.class);
+					            wifiConfigActivity.putExtra(CommonConsts.IS_FIRST_RUN, false);
+					            startActivity(wifiConfigActivity);
 					            return true;
 							}
 		});
@@ -400,6 +388,7 @@ public class WiFiConnect extends SherlockActivity
 								return true;
 							}
 		});
+		
 
 		return true;
 	}
